@@ -9,15 +9,16 @@ class Block {
 
 export class BreakoutGame {
     constructor(canvas) {
-
+        this.height = canvas.height;
+        this.width = canvas.width;
         this.score = 0;
         this.blocks = [];
-        this.ball_x = canvas.width / 2;
-        this.ball_y = canvas.height / 2;
+        this.ball_x = this.width / 2;
+        this.ball_y = this.height / 2;
         this.ball_x_veloc = 1;
         this.ball_y_veloc = 1;
         this.player_x = 300;
-        this.player_y = canvas.height * 0.95;
+        this.player_y = this.height * 0.95;
         this.populate_blocks();
     }
 
@@ -46,6 +47,10 @@ export class BreakoutGame {
     }
 
     update_ball() {
+        if (this.ball_x >= this.width || this.ball_x < 0) {
+            this.ball_x_veloc *= -1;
+        }
+
         this.ball_x += this.ball_x_veloc;
         this.ball_y += this.ball_y_veloc;
     }
