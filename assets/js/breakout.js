@@ -1,12 +1,12 @@
-import { game } from "./breakout_game"
+import { BreakoutGame } from "./breakout_game"
 
 var breakout = {
     start: function (canvas_id) {
         var canvas = document.getElementById(canvas_id)
         var ctx = canvas.getContext("2d")
-        var game = {}
-        this.setup(canvas, ctx, game)
-        this.game_loop(canvas, ctx)
+        var game = new BreakoutGame(200, 200);
+        this.setup(canvas, ctx, game);
+        this.game_loop(canvas, ctx, game);
     },
 
     setup: function (canvas, ctx, game) {
