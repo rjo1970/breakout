@@ -8,13 +8,16 @@ class Block {
 };
 
 export class BreakoutGame {
-    constructor(ball_x, ball_y) {
+    constructor(canvas) {
+
         this.score = 0;
         this.blocks = [];
-        this.ball_x = ball_x;
-        this.ball_y = ball_y;
-        this.ball_x_accel = 0.1;
-        this.ball_y_accel = 0.1;
+        this.ball_x = canvas.width / 2;
+        this.ball_y = canvas.height / 2;
+        this.ball_x_veloc = 1;
+        this.ball_y_veloc = 1;
+        this.player_x = 300;
+        this.player_y = canvas.height * 0.95;
         this.populate_blocks();
     }
 
@@ -28,9 +31,31 @@ export class BreakoutGame {
             var color = colors[row];
             var y = row * 20;
             var score_value = 100 - y;
-            for (var col = 0; col < 16; ++col) {
+            for (var col = 0; col < 15; ++col) {
                 this.blocks.push(new Block(xs[col], y, color, score_value));
             }
+        }
+    }
+
+    tick(input) {
+        // update ball
+        this.update_ball();
+
+        // update player
+        this.update_player(input);
+    }
+
+    update_ball() {
+        this.ball_x += this.ball_x_veloc;
+        this.ball_y += this.ball_y_veloc;
+    }
+
+    update_player(input) {
+        if (input === 'left') {
+            this.player_x -= 2;
+        }
+        if (input === 'right') {
+            this.player_x += 2;
         }
     }
 };

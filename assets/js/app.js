@@ -16,8 +16,7 @@ import "phoenix_html"
 import { Socket } from "phoenix"
 import NProgress from "nprogress"
 import { LiveSocket } from "phoenix_live_view"
-import "./breakout"
-import { breakout } from "./breakout"
+import { Breakout } from "./breakout"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, { params: { _csrf_token: csrfToken } })
@@ -35,4 +34,5 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
-breakout.start("game_canvas")
+window.breakout = new Breakout('game_canvas');
+window.breakout.game_loop();

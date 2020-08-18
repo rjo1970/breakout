@@ -1,44 +1,75 @@
 import { BreakoutGame } from "./breakout_game"
 
-var breakout = {
-    start: function (canvas_id) {
-        var canvas = document.getElementById(canvas_id)
-        var ctx = canvas.getContext("2d")
-        var game = new BreakoutGame(200, 200);
-        this.setup(canvas, ctx, game);
-        this.game_loop(canvas, ctx, game);
-    },
+class KeyboardReader {
+    constructor() {
+        this.LEFT = 37;
+        this.RIGHT = 39;
+        this.key_state = {};
 
-    setup: function (canvas, ctx, game) {
-    },
+        window.onkeydown = (e) => {
+            this.key_state[e.keyCode] = true;
+        };
 
-    draw_board: function (ctx) {
-        ctx.fillStyle = 'black';
-        ctx.fillRect(0, 0, 600, 400);
-
-        // This is the first logic to get pushed down into Game: blocks get initiated
-        // just like this, but not applied with a context.
-        // {color: color, pos: [x, y], size: [39, 19] (const), score: 100 - row * 20}
-        const xs = [0, 40, 80, 120, 160, 200, 240, 280,
-            320, 360, 400, 440, 480, 520, 560]
-        const colors = ['green', 'blue', 'yellow', 'red', 'orange']
-        for (var row = 0; row < 4; ++row) {
-            var color = colors[row];
-            ctx.fillStyle = color;
-            for (var col = 0; col < 16; ++col) {
-                ctx.fillRect(xs[col], row * 20, 39, 19);
-            }
+        window.onkeyup = (e) => {
+            this.key_state[e.keyCode] = false;
         }
+    }
 
-        ctx.fillStyle = 'white';
-        ctx.fillRect(260, 260, 10, 10);
-
-        ctx.fillRect(360, 370, 40, 5);
-    },
-
-    game_loop: function (canvas, ctx, game) {
-        this.draw_board(ctx);
+    is_down(key_code) {
+        return this.key_state[key_code];
     }
 }
 
-export { breakout }
+class Breakout {
+    constructor(canvas_id) {
+        this.canvas = document.getElementById(canvas_id);
+        this.ctx = this.canvas.getContext("2d");
+        this.game = new BreakoutGame(this.canvas);
+        this.keyboard_reader = new KeyboardReader();
+        this.setup();
+    }
+
+    setup() {
+
+    }
+
+    game_loop() {
+        this.screen_refresh();
+        this.draw_blocks();
+        this.draw_ball();
+        this.draw_player();
+        if (this.keyboard_reader.is_down(this.keyboard_reader.LEFT)) {
+            this.game.tick("left");
+        } else if (this.keyboard_reader.is_down(this.keyboard_reader.RIGHT)) {
+            this.game.tick("right");
+        } else {
+            this.game.tick("");
+        }
+
+        // re-schedule yourself.
+    }
+
+    screen_refresh() {
+        this.ctx.fillStyle = 'black';
+        this.ctx.fillRect(0, 0, 600, 400);
+    }
+
+    draw_blocks() {
+        this.game.blocks.forEach((block, index, array) => {
+            this.ctx.fillStyle = block.color;
+            this.ctx.fillRect(block.x, block.y, 39, 19);
+        });
+    }
+
+    draw_ball() {
+        this.ctx.fillStyle = 'white';
+        this.ctx.fillRect(this.game.ball_x, this.game.ball_y, 10, 10);
+    }
+
+    draw_player() {
+        this.ctx.fillStyle = 'white';
+        this.ctx.fillRect(this.game.player_x, this.game.player_y, 40, 5);
+    }
+};
+
+export { Breakout }
