@@ -64,10 +64,10 @@ export class BreakoutGame {
 
     update_player(input) {
         if (input === 'left') {
-            this.player_x -= 2;
+            this.player_x -= 4;
         }
         if (input === 'right') {
-            this.player_x += 2;
+            this.player_x += 4;
         }
     }
 };
