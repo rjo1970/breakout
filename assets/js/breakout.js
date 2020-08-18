@@ -46,7 +46,9 @@ class Breakout {
             this.game.tick("");
         }
 
-        // re-schedule yourself.
+        var this_fn = () => { this.game_loop(); }
+
+        requestAnimationFrame(this_fn);
     }
 
     screen_refresh() {

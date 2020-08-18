@@ -38,7 +38,16 @@ test('tick reverses movement of the ball if it hits the x edge', () => {
     game.ball_x = 600
     game.ball_y = 100
     game.tick('');
-    expect(game.ball_x_veloc).toBe(-1);
-    expect(game.ball_y_veloc).toBe(1);
-    expect(game.ball_x).toBe(599);
+    expect(game.ball_x_veloc).toBe(-4);
+    expect(game.ball_y_veloc).toBe(4);
+    expect(game.ball_x).toBe(596);
+});
+
+test('tick reverses movement of the ball if it hits the y edge', () => {
+    game.ball_x = 100
+    game.ball_y = 400
+    game.tick('');
+    expect(game.ball_x_veloc).toBe(4);
+    expect(game.ball_y_veloc).toBe(-4);
+    expect(game.ball_y).toBe(396);
 });

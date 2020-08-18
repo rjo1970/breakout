@@ -15,8 +15,8 @@ export class BreakoutGame {
         this.blocks = [];
         this.ball_x = this.width / 2;
         this.ball_y = this.height / 2;
-        this.ball_x_veloc = 1;
-        this.ball_y_veloc = 1;
+        this.ball_x_veloc = 4;
+        this.ball_y_veloc = 4;
         this.player_x = 300;
         this.player_y = this.height * 0.95;
         this.populate_blocks();
@@ -47,12 +47,19 @@ export class BreakoutGame {
     }
 
     update_ball() {
-        if (this.ball_x >= this.width || this.ball_x < 0) {
-            this.ball_x_veloc *= -1;
-        }
+        this.edge_detect();
 
         this.ball_x += this.ball_x_veloc;
         this.ball_y += this.ball_y_veloc;
+    }
+
+    edge_detect() {
+        if (this.ball_x >= this.width - 10 || this.ball_x <= 0) {
+            this.ball_x_veloc *= -1;
+        }
+        if (this.ball_y >= this.height - 15 || this.ball_y <= 0) {
+            this.ball_y_veloc *= -1;
+        }
     }
 
     update_player(input) {
