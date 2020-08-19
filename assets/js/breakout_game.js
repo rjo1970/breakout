@@ -1,5 +1,6 @@
-var ball_size = 10;
-var paddle_size = 40;
+const ball_size = 10;
+const paddle_size = 60;
+const invincible = true;
 
 class Block {
     constructor(x, y, color, score_value) {
@@ -16,6 +17,7 @@ export class BreakoutGame {
         // this.game_over = false;
         this.height = canvas.height;
         this.width = canvas.width;
+        this.paddle_size = paddle_size;
         this.score = 0;
         this.blocks = [];
         this.ball_x = this.width / 2;
@@ -25,6 +27,14 @@ export class BreakoutGame {
         this.player_x = 300;
         this.player_y = this.height * 0.95;
         this.populate_blocks();
+    }
+
+    player_size() {
+        return paddle_size;
+    }
+
+    ball_size() {
+        return ball_size;
     }
 
     populate_blocks() {
@@ -87,7 +97,7 @@ export class BreakoutGame {
     }
 
     y_edge_detected() {
-        return this.ball_y >= this.height + ball_size || this.ball_y <= 0;
+        return (invincible && this.ball_y >= this.height + ball_size) || this.ball_y <= 0;
     }
 
     x_edge_detected() {

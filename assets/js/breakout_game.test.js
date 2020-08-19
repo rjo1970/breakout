@@ -63,7 +63,7 @@ test('bounces off the player paddle (left edge)', () => {
 });
 
 test('bounces off the player paddle (right edge)', () => {
-    game.ball_x = game.player_x + 39;
+    game.ball_x = game.player_x + game.player_size();
     game.ball_y = game.player_y;
     game.tick('');
     expect(game.ball_x_veloc).toBe(4);
@@ -82,7 +82,7 @@ test('does not bounce left of the paddle', () => {
 });
 
 test('does not bounce just right of the paddle', () => {
-    game.ball_x = game.player_x + 41;
+    game.ball_x = game.player_x + game.player_size() + 1;
     game.ball_y = game.player_y;
     game.tick('');
     expect(game.ball_x_veloc).toBe(4);

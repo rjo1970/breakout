@@ -63,13 +63,14 @@ class Breakout {
     }
 
     draw_ball() {
+        const ball_size = this.game.ball_size();
         this.ctx.fillStyle = 'white';
-        this.ctx.fillRect(this.game.ball_x, this.game.ball_y, 10, 10);
+        this.ctx.fillRect(this.game.ball_x, this.game.ball_y, ball_size, ball_size);
     }
 
     draw_player() {
         this.ctx.fillStyle = 'white';
-        this.ctx.fillRect(this.game.player_x, this.game.player_y, 40, 5);
+        this.ctx.fillRect(this.game.player_x, this.game.player_y, this.game.player_size(), 5);
     }
 };
 
