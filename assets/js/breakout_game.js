@@ -1,3 +1,6 @@
+var ball_size = 10;
+var paddle_size = 40;
+
 class Block {
     constructor(x, y, color, score_value) {
         this.x = x;
@@ -9,6 +12,8 @@ class Block {
 
 export class BreakoutGame {
     constructor(canvas) {
+        // this.balls = 3;
+        // this.game_over = false;
         this.height = canvas.height;
         this.width = canvas.width;
         this.score = 0;
@@ -54,28 +59,59 @@ export class BreakoutGame {
     }
 
     collision_detect() {
+        if (this.ball_touches_player()) {
+            this.reverse_ball_y();
+            return;
+        }
         if (this.x_edge_detected()) {
-            this.ball_x_veloc *= -1;
+            this.reverse_ball_x();
         }
         if (this.y_edge_detected()) {
-            this.ball_y_veloc *= -1;
+            this.reverse_ball_y();
         }
+    }
+
+    reverse_ball_x() {
+        this.ball_x_veloc *= -1;
+    }
+
+    reverse_ball_y() {
+        this.ball_y_veloc *= -1;
+    }
+
+    ball_touches_player() {
+        return this.ball_x >= this.player_x &&
+            this.ball_x <= this.player_x + paddle_size &&
+            this.ball_y >= this.player_y &&
+            this.ball_y <= this.player_y + ball_size;
     }
 
     y_edge_detected() {
-        return this.ball_y >= this.height - 15 || this.ball_y <= 0;
+        return this.ball_y >= this.height + ball_size || this.ball_y <= 0;
     }
 
     x_edge_detected() {
-        return this.ball_x >= this.width - 10 || this.ball_x <= 0;
+        return this.ball_x >= this.width - ball_size || this.ball_x <= 0;
     }
 
     update_player(input) {
         if (input === 'left') {
-            this.player_x -= 4;
+            this.move_player_left();
         }
         if (input === 'right') {
-            this.player_x += 4;
+            this.move_player_right();
+        }
+    }
+
+    move_player_right() {
+        if (this.player_x < this.width - paddle_size) {
+            this.player_x += 5;
+        }
+    }
+
+    move_player_left() {
+        if (this.player_x > 0) {
+            this.player_x -= 5;
         }
     }
 };
