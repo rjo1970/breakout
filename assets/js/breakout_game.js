@@ -47,19 +47,27 @@ export class BreakoutGame {
     }
 
     update_ball() {
-        this.edge_detect();
+        this.collision_detect();
 
         this.ball_x += this.ball_x_veloc;
         this.ball_y += this.ball_y_veloc;
     }
 
-    edge_detect() {
-        if (this.ball_x >= this.width - 10 || this.ball_x <= 0) {
+    collision_detect() {
+        if (this.x_edge_detected()) {
             this.ball_x_veloc *= -1;
         }
-        if (this.ball_y >= this.height - 15 || this.ball_y <= 0) {
+        if (this.y_edge_detected()) {
             this.ball_y_veloc *= -1;
         }
+    }
+
+    y_edge_detected() {
+        return this.ball_y >= this.height - 15 || this.ball_y <= 0;
+    }
+
+    x_edge_detected() {
+        return this.ball_x >= this.width - 10 || this.ball_x <= 0;
     }
 
     update_player(input) {

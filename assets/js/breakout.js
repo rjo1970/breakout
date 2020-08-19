@@ -26,11 +26,7 @@ class Breakout {
         this.ctx = this.canvas.getContext("2d");
         this.game = new BreakoutGame(this.canvas);
         this.keyboard_reader = new KeyboardReader();
-        this.setup();
-    }
-
-    setup() {
-
+        this.game_loop_callback = () => this.game_loop();
     }
 
     game_loop() {
@@ -38,17 +34,20 @@ class Breakout {
         this.draw_blocks();
         this.draw_ball();
         this.draw_player();
+        this.keyboard_tick();
+        requestAnimationFrame(this.game_loop_callback);
+    }
+
+    keyboard_tick() {
         if (this.keyboard_reader.is_down(this.keyboard_reader.LEFT)) {
             this.game.tick("left");
-        } else if (this.keyboard_reader.is_down(this.keyboard_reader.RIGHT)) {
+        }
+        else if (this.keyboard_reader.is_down(this.keyboard_reader.RIGHT)) {
             this.game.tick("right");
-        } else {
+        }
+        else {
             this.game.tick("");
         }
-
-        var this_fn = () => { this.game_loop(); }
-
-        requestAnimationFrame(this_fn);
     }
 
     screen_refresh() {
