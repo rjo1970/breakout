@@ -44,13 +44,13 @@ test('tick reverses movement of the ball if it hits the x edge', () => {
 });
 
 test('tick reverses movement of the ball if it hits the y edge, player not involved.', () => {
-    game.player_x = 0;
+    game.ball_y_veloc = -4;
     game.ball_x = 200;
-    game.ball_y = 410;
+    game.ball_y = 0;
     game.tick('');
     expect(game.ball_x_veloc).toBe(4);
-    expect(game.ball_y_veloc).toBe(-4);
-    expect(game.ball_y).toBe(406);
+    expect(game.ball_y_veloc).toBe(4);
+    expect(game.ball_y).toBe(4);
 });
 
 test('bounces off the player paddle (left edge)', () => {
@@ -88,4 +88,19 @@ test('does not bounce just right of the paddle', () => {
     expect(game.ball_x_veloc).toBe(4);
     expect(game.ball_y_veloc).toBe(4);
     expect(game.ball_y).toBe(384);
+});
+
+test('losing a life', () => {
+    game.new_life();
+    expect(game.balls).toBe(2);
+    expect(game.ball_x).toBe(300);
+    expect(Math.floor(game.ball_y)).toBe(133);
+    expect(game.ball_x_veloc).toBe(4);
+    expect(game.ball_y_veloc).toBe(4);
+});
+
+test('losing the last life', () => {
+    game.balls = 1;
+    game.new_life();
+    expect(game.balls).toBe(0);
 });

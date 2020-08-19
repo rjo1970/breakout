@@ -1,6 +1,6 @@
 const ball_size = 10;
 const paddle_size = 60;
-const invincible = true;
+const invincible = false;
 
 class Block {
     constructor(x, y, color, score_value) {
@@ -13,20 +13,23 @@ class Block {
 
 export class BreakoutGame {
     constructor(canvas) {
-        // this.balls = 3;
-        // this.game_over = false;
+        this.balls = 3;
         this.height = canvas.height;
         this.width = canvas.width;
         this.paddle_size = paddle_size;
         this.score = 0;
         this.blocks = [];
+        this.player_x = 445;
+        this.player_y = this.height * 0.95;
+        this.reset_ball();
+        this.populate_blocks();
+    }
+
+    reset_ball() {
         this.ball_x = this.width / 2;
-        this.ball_y = this.height / 2;
+        this.ball_y = this.height / 3;
         this.ball_x_veloc = 4;
         this.ball_y_veloc = 4;
-        this.player_x = 300;
-        this.player_y = this.height * 0.95;
-        this.populate_blocks();
     }
 
     player_size() {
@@ -64,8 +67,10 @@ export class BreakoutGame {
     update_ball() {
         this.collision_detect();
 
-        this.ball_x += this.ball_x_veloc;
-        this.ball_y += this.ball_y_veloc;
+        if (!this.ball_lost()) {
+            this.ball_x += this.ball_x_veloc;
+            this.ball_y += this.ball_y_veloc;
+        }
     }
 
     collision_detect() {
@@ -79,7 +84,20 @@ export class BreakoutGame {
         if (this.y_edge_detected()) {
             this.reverse_ball_y();
         }
+        if (this.ball_lost()) {
+            this.new_life();
+        }
     }
+
+    new_life() {
+        if (this.balls > 0) {
+            this.balls -= 1;
+        }
+        if (this.balls > 0) {
+            this.reset_ball();
+        }
+    }
+
 
     reverse_ball_x() {
         this.ball_x_veloc *= -1;
@@ -102,6 +120,10 @@ export class BreakoutGame {
 
     x_edge_detected() {
         return this.ball_x >= this.width - ball_size || this.ball_x <= 0;
+    }
+
+    ball_lost() {
+        return this.ball_y > this.height * 2;
     }
 
     update_player(input) {

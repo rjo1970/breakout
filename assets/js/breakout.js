@@ -34,6 +34,7 @@ class Breakout {
         this.draw_blocks();
         this.draw_ball();
         this.draw_player();
+        this.draw_game_over();
         this.keyboard_tick();
         requestAnimationFrame(this.game_loop_callback);
     }
@@ -47,6 +48,14 @@ class Breakout {
         }
         else {
             this.game.tick("");
+        }
+    }
+
+    draw_game_over() {
+        if (this.game.balls == 0) {
+            this.ctx.fillStyle = 'yellow';
+            this.ctx.font = "70pt Arial";
+            this.ctx.fillText("Game Over", 60, 200);
         }
     }
 
@@ -65,7 +74,9 @@ class Breakout {
     draw_ball() {
         const ball_size = this.game.ball_size();
         this.ctx.fillStyle = 'white';
-        this.ctx.fillRect(this.game.ball_x, this.game.ball_y, ball_size, ball_size);
+        if (!this.game.game_over) {
+            this.ctx.fillRect(this.game.ball_x, this.game.ball_y, ball_size, ball_size);
+        }
     }
 
     draw_player() {
