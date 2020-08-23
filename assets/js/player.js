@@ -1,3 +1,5 @@
+const VELOCITY = 8;
+
 export class Player {
     constructor(canvas_width, canvas_height, paddle_size) {
         this.canvas_width = canvas_width;
@@ -11,6 +13,10 @@ export class Player {
         return this.paddle_size;
     }
 
+    velocity() {
+        return VELOCITY;
+    }
+
     update(input) {
         if (input === 'left') {
             this.move_left();
@@ -21,14 +27,14 @@ export class Player {
     }
 
     move_right() {
-        if (this.x < (this.canvas_width - this.paddle_size)) {
-            this.x += 5;
+        if (this.x < (this.canvas_width - this.paddle_size / 2)) {
+            this.x += VELOCITY;
         }
     }
 
     move_left() {
-        if (this.x > 0) {
-            this.x -= 5;
+        if (this.x > 0 - this.paddle_size / 2) {
+            this.x -= VELOCITY;
         }
     }
 }

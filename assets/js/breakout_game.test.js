@@ -1,4 +1,5 @@
 import { BreakoutGame } from './breakout_game';
+import { Block } from './block';
 
 var game;
 
@@ -48,6 +49,7 @@ test('tick reverses movement of the ball if it hits the y edge, player not invol
     game.ball.y_veloc = -4;
     game.ball.x = 200;
     game.ball.y = 0;
+    game.blocks = [];
     game.tick('');
     expect(game.ball.y_veloc).toBe(4);
     expect(game.ball.y).toBe(4);
@@ -98,4 +100,19 @@ test('losing the last life', () => {
     game.balls = 1;
     game.new_life();
     expect(game.balls).toBe(0);
+});
+
+test('hitting the last block', () => {
+    game.blocks = [new Block(40, 60, 'yellow', 123)];
+    game.ball.x = 45;
+    game.ball.y = 65;
+    game.ball.x_veloc = 4;
+    game.ball.y_veloc = -4;
+
+    game.tick('');
+
+    expect(game.score).toBe(123);
+    expect(game.blocks).toHaveLength(60);
+    expect(game.ball.x_veloc).toBe(4);
+    expect(game.ball.y_veloc).toBe(4);
 });

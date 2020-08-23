@@ -19,25 +19,26 @@ test('construction', () => {
 
 test('move left with room to move', () => {
     player.move_left();
-    expect(player.x).toBe(265);
+    expect(player.x).toBe(270 - player.velocity());
 });
 
 test('move right with room to move', () => {
     player.move_right();
-    expect(player.x).toBe(275);
+    expect(player.x).toBe(270 + player.velocity());
 });
 
 test('move left but at the wall', () => {
-    player.x = 0;
+    const edge_x = 0 - player.size() / 2;
+    player.x = edge_x;
     player.move_left();
-    expect(player.x).toBe(0);
+    expect(player.x).toBe(edge_x);
 });
 
 test('move right but at the wall', () => {
-    const expected = (canvas_width - paddle_size);
-    player.x = expected;
+    const edge_x = (canvas_width - paddle_size / 2);
+    player.x = edge_x;
     player.move_right();
-    expect(player.x).toBe(expected);
+    expect(player.x).toBe(edge_x);
 });
 
 test('update with no direction', () => {
@@ -48,10 +49,10 @@ test('update with no direction', () => {
 
 test('update left', () => {
     player.update('left');
-    expect(player.x).toBe(265);
+    expect(player.x).toBe(270 - player.velocity());
 });
 
 test('update right', () => {
     player.update('right');
-    expect(player.y).toBe(380);
+    expect(player.x).toBe(270 + player.velocity());
 });
