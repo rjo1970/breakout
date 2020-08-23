@@ -70,11 +70,15 @@ export class BreakoutGame {
         }
     }
 
+    game_over() {
+        return this.balls == 0;
+    }
+
     new_life() {
-        if (this.balls > 0) {
+        if (!this.game_over()) {
             this.balls -= 1;
         }
-        if (this.balls > 0) {
+        if (!this.game_over()) {
             this.ball.reset();
         }
     }

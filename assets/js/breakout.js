@@ -4,6 +4,7 @@ class KeyboardReader {
     constructor() {
         this.LEFT = 37;
         this.RIGHT = 39;
+        this.SPACE = 32;
         this.key_state = {};
 
         window.onkeydown = (e) => {
@@ -47,13 +48,16 @@ class Breakout {
         else if (this.keyboard_reader.is_down(this.keyboard_reader.RIGHT)) {
             this.game.tick("right");
         }
+        else if (this.keyboard_reader.is_down(this.keyboard_reader.SPACE) && this.game.game_over()) {
+            this.game = new BreakoutGame(this.canvas);
+        }
         else {
             this.game.tick("");
         }
     }
 
     draw_game_over() {
-        if (this.game.balls == 0) {
+        if (this.game.game_over()) {
             this.ctx.fillStyle = 'yellow';
             this.ctx.font = "70pt Arial";
             this.ctx.fillText("Game Over", 60, 200);
