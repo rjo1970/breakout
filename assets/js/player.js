@@ -3,7 +3,7 @@ export class Player {
         this.canvas_width = canvas_width;
         this.canvas_height = canvas_height;
         this.paddle_size = paddle_size;
-        this.x = 445; // TODO: (canvas_width / 2) - (paddle_size / 2);
+        this.x = (canvas_width / 2) - (paddle_size / 2);
         this.y = Math.floor(this.canvas_height * 0.95);
     }
 

@@ -13,18 +13,18 @@ beforeEach(() => {
 test('construction', () => {
     expect(player.canvas_width).toBe(600);
     expect(player.canvas_height).toBe(400);
-    expect(player.x).toBe(445);
+    expect(player.x).toBe(270);
     expect(player.y).toBe(380);
 });
 
 test('move left with room to move', () => {
     player.move_left();
-    expect(player.x).toBe(440);
+    expect(player.x).toBe(265);
 });
 
 test('move right with room to move', () => {
     player.move_right();
-    expect(player.x).toBe(450);
+    expect(player.x).toBe(275);
 });
 
 test('move left but at the wall', () => {
@@ -48,7 +48,7 @@ test('update with no direction', () => {
 
 test('update left', () => {
     player.update('left');
-    expect(player.x).toBe(440);
+    expect(player.x).toBe(265);
 });
 
 test('update right', () => {
