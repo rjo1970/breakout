@@ -1,4 +1,4 @@
-const VELOCITY = 4;
+const VELOCITY = 3;
 const BALL_SIZE = 10;
 
 export class Ball {
@@ -22,6 +22,18 @@ export class Ball {
 
     bounce_x() {
         this.x_veloc *= -1;
+    }
+
+    paddle_bounce_x(player) {
+        const half_paddle = player.size() / 2;
+        const step_size = player.size() / 8;
+        const ideal_x = player.x + half_paddle;
+        const veloc = 6 - Math.floor(Math.abs(this.x - ideal_x) / step_size)
+        if (this.x_veloc > 0) {
+            this.x_veloc = veloc;
+        } else {
+            this.x_veloc = -1 * veloc;
+        }
     }
 
     bounce_y() {

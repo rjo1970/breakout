@@ -59,7 +59,7 @@ class Breakout {
     draw_ball() {
         var ball = this.game.ball;
         this.ctx.fillStyle = 'white';
-        if (this.game.balls > 0) {
+        if (!this.game.game_over()) {
             this.ctx.fillRect(ball.x, ball.y, ball.size, ball.size);
         }
     }

@@ -1,5 +1,12 @@
 # Breakout
 
+The 1970's are calling.  They want their game back.
+
+This was a vacation project to get my feet wet with JavaScript and testing
+inside the context of a video game.
+
+Arrow keys control the paddle, and spacebar restarts after the game is over.
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`

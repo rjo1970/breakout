@@ -13,8 +13,8 @@ beforeEach(() => {
 test('construction', () => {
     expect(ball.x).toBe(300);
     expect(ball.y).toBe(133);
-    expect(Math.abs(ball.x_veloc)).toBe(4);
-    expect(ball.y_veloc).toBe(4);
+    expect(Math.abs(ball.x_veloc)).toBe(3);
+    expect(ball.y_veloc).toBe(3);
     expect(ball.canvas_width).toBe(canvas_width);
     expect(ball.canvas_height).toBe(canvas_height);
     expect(ball.size).toBe(10);
@@ -28,8 +28,8 @@ test('reset', () => {
     ball.reset();
     expect(ball.x).toBe(300);
     expect(ball.y).toBe(133);
-    expect(Math.abs(ball.x_veloc)).toBe(4);
-    expect(ball.y_veloc).toBe(4);
+    expect(Math.abs(ball.x_veloc)).toBe(3);
+    expect(ball.y_veloc).toBe(3);
 });
 
 test('touches ball', () => {
@@ -55,4 +55,14 @@ test('touches player on right side of paddle', () => {
 test('lost ball', () => {
     ball.y = 801;
     expect(ball.is_lost()).toBeTruthy();
+});
+
+test('paddle bounce', () => {
+    var player = new Player(canvas_width, canvas_height, paddle_size);
+    ball.x = player.x;
+    ball.y = player.y;
+    ball.x_veloc = 4;
+    ball.paddle_bounce_x(player);
+
+    expect(ball.x_veloc).toBe(2);
 });

@@ -48,7 +48,7 @@ test('tick reverses movement of the ball if it hits the x edge', () => {
     game.ball.y = 120
     game.ball.x_veloc = 4;
     game.tick('');
-    expect(game.ball.y_veloc).toBe(4);
+    expect(game.ball.y_veloc).toBe(3);
     expect(game.ball.x_veloc).toBe(-4);
     expect(game.ball.x).toBe(596);
 });
@@ -67,16 +67,16 @@ test('bounces off the player paddle (left edge)', () => {
     game.ball.x = game.player.x;
     game.ball.y = game.player.y;
     game.tick('');
-    expect(game.ball.y_veloc).toBe(-4);
-    expect(game.ball.y).toBe(376);
+    expect(game.ball.y_veloc).toBe(-3);
+    expect(game.ball.y).toBe(377);
 });
 
 test('bounces off the player paddle (right edge)', () => {
     game.ball.x = game.player.x + game.player.size();
     game.ball.y = game.player.y;
     game.tick('');
-    expect(game.ball.y_veloc).toBe(-4);
-    expect(game.ball.y).toBe(376);
+    expect(game.ball.y_veloc).toBe(-3);
+    expect(game.ball.y).toBe(377);
 });
 
 
@@ -84,16 +84,16 @@ test('does not bounce left of the paddle', () => {
     game.ball.x = game.player.x - 20;
     game.ball.y = game.player.y;
     game.tick('');
-    expect(game.ball.y_veloc).toBe(4);
-    expect(game.ball.y).toBe(384);
+    expect(game.ball.y_veloc).toBe(3);
+    expect(game.ball.y).toBe(383);
 });
 
 test('does not bounce just right of the paddle', () => {
     game.ball.x = game.player.x + game.player.size() + 1;
     game.ball.y = game.player.y;
     game.tick('');
-    expect(game.ball.y_veloc).toBe(4);
-    expect(game.ball.y).toBe(384);
+    expect(game.ball.y_veloc).toBe(3);
+    expect(game.ball.y).toBe(383);
 });
 
 test('losing a life', () => {
@@ -101,7 +101,7 @@ test('losing a life', () => {
     expect(game.balls).toBe(2);
     expect(game.ball.x).toBe(300);
     expect(Math.floor(game.ball.y)).toBe(133);
-    expect(game.ball.y_veloc).toBe(4);
+    expect(game.ball.y_veloc).toBe(3);
 });
 
 test('losing the last life', () => {

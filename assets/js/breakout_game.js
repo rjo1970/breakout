@@ -45,7 +45,7 @@ export class BreakoutGame {
         if (this.ball.touches_player(this.player)) {
             this.ball.bounce_y();
             if (!(this.ball.x > this.player.x + this.player.size() / 2)) {
-                this.ball.bounce_x();
+                this.ball.paddle_bounce_x(this.player);
             }
             return;
         }
