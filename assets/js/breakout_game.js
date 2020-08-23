@@ -1,6 +1,8 @@
-const ball_size = 10;
+import { Ball } from "./ball";
+import { Player } from "./player";
+
 const paddle_size = 60;
-const invincible = false;
+const invincible = true;
 
 class Block {
     constructor(x, y, color, score_value) {
@@ -14,30 +16,11 @@ class Block {
 export class BreakoutGame {
     constructor(canvas) {
         this.balls = 3;
-        this.height = canvas.height;
-        this.width = canvas.width;
-        this.paddle_size = paddle_size;
         this.score = 0;
         this.blocks = [];
-        this.player_x = 445;
-        this.player_y = this.height * 0.95;
-        this.reset_ball();
         this.populate_blocks();
-    }
-
-    reset_ball() {
-        this.ball_x = this.width / 2;
-        this.ball_y = this.height / 3;
-        this.ball_x_veloc = 4;
-        this.ball_y_veloc = 4;
-    }
-
-    player_size() {
-        return paddle_size;
-    }
-
-    ball_size() {
-        return ball_size;
+        this.ball = new Ball(canvas.width, canvas.height, invincible);
+        this.player = new Player(canvas.width, canvas.height, paddle_size);
     }
 
     populate_blocks() {
@@ -57,34 +40,23 @@ export class BreakoutGame {
     }
 
     tick(input) {
-        // update ball
-        this.update_ball();
-
-        // update player
-        this.update_player(input);
-    }
-
-    update_ball() {
         this.collision_detect();
-
-        if (!this.ball_lost()) {
-            this.ball_x += this.ball_x_veloc;
-            this.ball_y += this.ball_y_veloc;
-        }
+        this.ball.update();
+        this.player.update(input);
     }
 
     collision_detect() {
-        if (this.ball_touches_player()) {
-            this.reverse_ball_y();
+        if (this.ball.touches_player(this.player)) {
+            this.ball.bounce_y();
             return;
         }
-        if (this.x_edge_detected()) {
-            this.reverse_ball_x();
+        if (this.ball.x_edge_detected()) {
+            this.ball.bounce_x();
         }
-        if (this.y_edge_detected()) {
-            this.reverse_ball_y();
+        if (this.ball.y_edge_detected()) {
+            this.ball.bounce_y();
         }
-        if (this.ball_lost()) {
+        if (this.ball.is_lost()) {
             this.new_life();
         }
     }
@@ -94,56 +66,7 @@ export class BreakoutGame {
             this.balls -= 1;
         }
         if (this.balls > 0) {
-            this.reset_ball();
-        }
-    }
-
-
-    reverse_ball_x() {
-        this.ball_x_veloc *= -1;
-    }
-
-    reverse_ball_y() {
-        this.ball_y_veloc *= -1;
-    }
-
-    ball_touches_player() {
-        return this.ball_x >= this.player_x &&
-            this.ball_x <= this.player_x + paddle_size &&
-            this.ball_y >= this.player_y &&
-            this.ball_y <= this.player_y + ball_size;
-    }
-
-    y_edge_detected() {
-        return (invincible && this.ball_y >= this.height + ball_size) || this.ball_y <= 0;
-    }
-
-    x_edge_detected() {
-        return this.ball_x >= this.width - ball_size || this.ball_x <= 0;
-    }
-
-    ball_lost() {
-        return this.ball_y > this.height * 2;
-    }
-
-    update_player(input) {
-        if (input === 'left') {
-            this.move_player_left();
-        }
-        if (input === 'right') {
-            this.move_player_right();
-        }
-    }
-
-    move_player_right() {
-        if (this.player_x < this.width - paddle_size) {
-            this.player_x += 5;
-        }
-    }
-
-    move_player_left() {
-        if (this.player_x > 0) {
-            this.player_x -= 5;
+            this.ball.reset();
         }
     }
 };

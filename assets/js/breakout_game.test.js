@@ -5,7 +5,7 @@ var game;
 beforeEach(() => {
     const canvas = { width: 600, height: 400 };
     game = new BreakoutGame(canvas);
-})
+});
 
 test('a game starts with a zero score', () => {
     expect(game.score).toBe(0);
@@ -28,75 +28,70 @@ test('blocks have a score', () => {
 });
 
 test('tick moves the ball', () => {
-    const starting_pos = [game.ball_x, game.ball_y];
+    const starting_pos = [game.ball.x, game.ball.y];
     game.tick('');
-    expect(starting_pos[0]).not.toBe(game.ball_x);
-    expect(starting_pos[1]).not.toBe(game.ball_y);
+    expect(starting_pos[0]).not.toBe(game.ball.x);
+    expect(starting_pos[1]).not.toBe(game.ball.y);
 });
 
 test('tick reverses movement of the ball if it hits the x edge', () => {
-    game.ball_x = 600
-    game.ball_y = 100
+    game.ball.x = 600
+    game.ball.y = 100
+    game.ball.x_veloc = 4;
     game.tick('');
-    expect(game.ball_x_veloc).toBe(-4);
-    expect(game.ball_y_veloc).toBe(4);
-    expect(game.ball_x).toBe(596);
+    expect(game.ball.y_veloc).toBe(4);
+    expect(game.ball.x_veloc).toBe(-4);
+    expect(game.ball.x).toBe(596);
 });
 
 test('tick reverses movement of the ball if it hits the y edge, player not involved.', () => {
-    game.ball_y_veloc = -4;
-    game.ball_x = 200;
-    game.ball_y = 0;
+    game.ball.y_veloc = -4;
+    game.ball.x = 200;
+    game.ball.y = 0;
     game.tick('');
-    expect(game.ball_x_veloc).toBe(4);
-    expect(game.ball_y_veloc).toBe(4);
-    expect(game.ball_y).toBe(4);
+    expect(game.ball.y_veloc).toBe(4);
+    expect(game.ball.y).toBe(4);
 });
 
 test('bounces off the player paddle (left edge)', () => {
-    game.ball_x = game.player_x;
-    game.ball_y = game.player_y;
+    game.ball.x = game.player.x;
+    game.ball.y = game.player.y;
     game.tick('');
-    expect(game.ball_x_veloc).toBe(4);
-    expect(game.ball_y_veloc).toBe(-4);
-    expect(game.ball_y).toBe(376);
+    expect(game.ball.y_veloc).toBe(-4);
+    expect(game.ball.y).toBe(376);
 });
 
 test('bounces off the player paddle (right edge)', () => {
-    game.ball_x = game.player_x + game.player_size();
-    game.ball_y = game.player_y;
+    game.ball.x = game.player.x + game.player.size();
+    game.ball.y = game.player.y;
     game.tick('');
-    expect(game.ball_x_veloc).toBe(4);
-    expect(game.ball_y_veloc).toBe(-4);
-    expect(game.ball_y).toBe(376);
+    expect(game.ball.y_veloc).toBe(-4);
+    expect(game.ball.y).toBe(376);
 });
 
 
 test('does not bounce left of the paddle', () => {
-    game.ball_x = game.player_x - 20;
-    game.ball_y = game.player_y;
+    game.ball.x = game.player.x - 20;
+    game.ball.y = game.player.y;
     game.tick('');
-    expect(game.ball_x_veloc).toBe(4);
-    expect(game.ball_y_veloc).toBe(4);
-    expect(game.ball_y).toBe(384);
+    expect(game.ball.y_veloc).toBe(4);
+    expect(game.ball.y).toBe(384);
 });
 
 test('does not bounce just right of the paddle', () => {
-    game.ball_x = game.player_x + game.player_size() + 1;
-    game.ball_y = game.player_y;
+    game.ball.x = game.player.x + game.player.size() + 1;
+    game.ball.y = game.player.y;
     game.tick('');
-    expect(game.ball_x_veloc).toBe(4);
-    expect(game.ball_y_veloc).toBe(4);
-    expect(game.ball_y).toBe(384);
+    expect(game.ball.y_veloc).toBe(4);
+    expect(game.ball.y).toBe(384);
 });
 
 test('losing a life', () => {
     game.new_life();
     expect(game.balls).toBe(2);
-    expect(game.ball_x).toBe(300);
-    expect(Math.floor(game.ball_y)).toBe(133);
-    expect(game.ball_x_veloc).toBe(4);
-    expect(game.ball_y_veloc).toBe(4);
+    expect(game.ball.x).toBe(300);
+    expect(Math.floor(game.ball.y)).toBe(133);
+    expect(game.ball.y_veloc).toBe(4);
 });
 
 test('losing the last life', () => {

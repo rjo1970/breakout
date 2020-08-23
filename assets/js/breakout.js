@@ -72,16 +72,17 @@ class Breakout {
     }
 
     draw_ball() {
-        const ball_size = this.game.ball_size();
+        var ball = this.game.ball;
         this.ctx.fillStyle = 'white';
-        if (!this.game.game_over) {
-            this.ctx.fillRect(this.game.ball_x, this.game.ball_y, ball_size, ball_size);
+        if (this.game.balls > 0) {
+            this.ctx.fillRect(ball.x, ball.y, ball.size, ball.size);
         }
     }
 
     draw_player() {
+        var player = this.game.player;
         this.ctx.fillStyle = 'white';
-        this.ctx.fillRect(this.game.player_x, this.game.player_y, this.game.player_size(), 5);
+        this.ctx.fillRect(player.x, player.y, player.size(), 5);
     }
 };
 
