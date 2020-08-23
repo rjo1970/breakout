@@ -16,6 +16,14 @@ test('a game has an array of blocks to knock down', () => {
     expect(game.blocks).toHaveLength(60);
 });
 
+test('a ball below the targets and no targets results in a new screen', () => {
+    game.blocks = [];
+    game.ball.y = 120;
+    game.tick('');
+
+    expect(game.blocks).toHaveLength(60);
+});
+
 test('all blocks have their x, y, and color defined', () => {
     game.blocks.forEach((block, index, array) => {
         expect(block.x).toBeDefined();
@@ -25,7 +33,7 @@ test('all blocks have their x, y, and color defined', () => {
 });
 
 test('blocks have a score', () => {
-    expect(game.blocks[0].score_value).toBe(100);
+    expect(game.blocks[0].score_value).toBe(80);
 });
 
 test('tick moves the ball', () => {
@@ -37,7 +45,7 @@ test('tick moves the ball', () => {
 
 test('tick reverses movement of the ball if it hits the x edge', () => {
     game.ball.x = 600
-    game.ball.y = 100
+    game.ball.y = 120
     game.ball.x_veloc = 4;
     game.tick('');
     expect(game.ball.y_veloc).toBe(4);
@@ -112,7 +120,7 @@ test('hitting the last block', () => {
     game.tick('');
 
     expect(game.score).toBe(123);
-    expect(game.blocks).toHaveLength(60);
+    expect(game.blocks).toHaveLength(0);
     expect(game.ball.x_veloc).toBe(4);
     expect(game.ball.y_veloc).toBe(4);
 });

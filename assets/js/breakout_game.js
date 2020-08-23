@@ -23,7 +23,7 @@ export class BreakoutGame {
         const colors = ['green', 'blue', 'yellow', 'red', 'orange']
         for (var row = 0; row < 4; ++row) {
             var color = colors[row];
-            var y = row * 20;
+            var y = (row + 1) * 20;
             var score_value = 100 - y;
             for (var col = 0; col < 15; ++col) {
                 this.blocks.push(new Block(xs[col], y, color, score_value));
@@ -33,7 +33,7 @@ export class BreakoutGame {
 
     tick(input) {
         this.collision_detect();
-        if (this.blocks.length == 0) {
+        if (this.blocks.length == 0 && this.ball.y > 100) {
             this.populate_blocks();
         }
         this.ball.update();
