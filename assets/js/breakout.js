@@ -34,6 +34,7 @@ class Breakout {
         this.draw_blocks();
         this.draw_ball();
         this.draw_player();
+        this.draw_score();
         this.draw_game_over();
         this.keyboard_tick();
         requestAnimationFrame(this.game_loop_callback);
@@ -83,6 +84,12 @@ class Breakout {
         var player = this.game.player;
         this.ctx.fillStyle = 'white';
         this.ctx.fillRect(player.x, player.y, player.size(), 5);
+    }
+
+    draw_score() {
+        this.ctx.fillStyle = 'white';
+        this.ctx.font = "12pt Arial";
+        this.ctx.fillText(`score: ${this.game.score} balls: ${this.game.balls}`, 10, 15);
     }
 };
 
