@@ -18,6 +18,7 @@ const E5 = 659;
 
 export class BreakoutGame {
     constructor(canvas, sound_constructor) {
+        this.screens_cleared = 0;
         this.scheduled_sounds = [];
         this.sound_constructor = sound_constructor;
         this.balls = 3;
@@ -56,6 +57,7 @@ export class BreakoutGame {
         if (this.need_blocks()) {
             this.populate_blocks();
             this.balls += 1;
+            this.screens_cleared += 1;
         }
         this.ball.update();
         this.player.update(input);

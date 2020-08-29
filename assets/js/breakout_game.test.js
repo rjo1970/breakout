@@ -133,7 +133,7 @@ test('hitting the last block', () => {
     expect(game.pop_scheduled_sounds()).toHaveLength(1);
 });
 
-test('if you clear the board, you get a new board and new life', () => {
+test('if you clear the board, you get a new board, new life, and bump the cleared screens!', () => {
     game.blocks = [];
     game.ball.y = 200;
     game.ball.x_veloc = 4;
@@ -143,6 +143,7 @@ test('if you clear the board, you get a new board and new life', () => {
 
     expect(game.blocks).toHaveLength(60);
     expect(game.balls).toBe(4);
+    expect(game.screens_cleared).toBe(1);
 });
 
 test('the evil on-one-side-bounce-thing', () => {
