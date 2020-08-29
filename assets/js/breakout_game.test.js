@@ -61,8 +61,8 @@ test('tick reverses movement of the ball if it hits the y edge, player not invol
     game.ball.y = 0;
     game.blocks = [];
     game.tick('');
-    expect(game.ball.y_veloc).toBe(4);
-    expect(game.ball.y).toBe(4);
+    expect(game.ball.y_veloc).toBe(4.04);
+    expect(game.ball.y).toBe(4.04);
     expect(game.pop_scheduled_sounds()).toHaveLength(1);
 });
 
@@ -70,8 +70,8 @@ test('bounces off the player paddle (left edge)', () => {
     game.ball.x = game.player.x;
     game.ball.y = game.player.y;
     game.tick('');
-    expect(game.ball.y_veloc).toBe(-3);
-    expect(game.ball.y).toBe(377);
+    expect(game.ball.y_veloc).toBe(-3.0300000000000002);
+    expect(game.ball.y).toBe(376.97);
     expect(game.pop_scheduled_sounds()).toHaveLength(1);
 });
 
@@ -79,8 +79,8 @@ test('bounces off the player paddle (right edge)', () => {
     game.ball.x = game.player.x + game.player.size();
     game.ball.y = game.player.y;
     game.tick('');
-    expect(game.ball.y_veloc).toBe(-3);
-    expect(game.ball.y).toBe(377);
+    expect(game.ball.y_veloc).toBe(-3.0300000000000002);
+    expect(game.ball.y).toBe(376.97);
     expect(game.pop_scheduled_sounds()).toHaveLength(1);
 });
 
@@ -129,7 +129,7 @@ test('hitting the last block', () => {
     expect(game.score).toBe(123);
     expect(game.blocks).toHaveLength(0);
     expect(game.ball.x_veloc).toBe(4);
-    expect(game.ball.y_veloc).toBe(4);
+    expect(game.ball.y_veloc).toBe(4.04);
     expect(game.pop_scheduled_sounds()).toHaveLength(1);
 });
 
@@ -143,4 +143,19 @@ test('if you clear the board, you get a new board and new life', () => {
 
     expect(game.blocks).toHaveLength(60);
     expect(game.balls).toBe(4);
+});
+
+test('the evil on-one-side-bounce-thing', () => {
+    game.ball.x = 595;
+    game.ball.x_veloc = -7;
+    game.ball.y = 370;
+    game.ball.y_veloc = -3;
+    game.tick('');
+    game.tick('');
+    game.tick('');
+    game.tick('');
+    expect(game.ball.x).toBe(567);
+    expect(game.ball.y).toBe(358);
+    expect(game.ball.x_veloc).toBe(-7);
+    expect(game.ball.y_veloc).toBe(-3);
 });

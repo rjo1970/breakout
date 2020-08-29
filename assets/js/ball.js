@@ -10,6 +10,10 @@ export class Ball {
         this.reset();
     }
 
+    max_x() {
+        return this.canvas_width - this.size;
+    }
+
     reset() {
         this.x = Math.floor(this.canvas_width / 2);
         this.y = Math.floor(this.canvas_height / 3);
@@ -29,7 +33,7 @@ export class Ball {
         const step_size = player.size() / 8;
         const ideal_x = player.x + half_paddle;
         const accuracy_score = Math.floor(Math.abs(this.x - ideal_x) / step_size);
-        const veloc = 6 + accuracy_score;
+        const veloc = 5 + accuracy_score;
         if (this.x_veloc > 0) {
             this.x_veloc = veloc;
         } else {
@@ -38,7 +42,7 @@ export class Ball {
     }
 
     bounce_y() {
-        this.y_veloc *= -1;
+        this.y_veloc *= -1.01;
     }
 
     update() {
@@ -64,13 +68,11 @@ export class Ball {
         if (this.x < 0 && this.x_veloc <= 0) {
             return true;
         }
-        if (this.x > this.canvas_width - this.width && this.x_veloc >= 0) {
+        if (this.x >= this.max_x() && this.x_veloc >= 0) {
             return true;
         }
 
-        const bounce_left = (this.x >= this.canvas_width - this.size);
-        const bounce_right = (this.x <= 0);
-        return bounce_left || bounce_right;
+        return false;
     }
 
     is_lost() {
