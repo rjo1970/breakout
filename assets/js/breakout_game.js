@@ -33,11 +33,15 @@ export class BreakoutGame {
 
     tick(input) {
         this.collision_detect();
-        if (this.blocks.length == 0 && this.ball.y > 100) {
+        if (this.need_blocks()) {
             this.populate_blocks();
         }
         this.ball.update();
         this.player.update(input);
+    }
+
+    need_blocks() {
+        return this.blocks.length == 0 && this.ball.y > 100;
     }
 
     collision_detect() {
