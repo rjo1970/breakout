@@ -5,7 +5,8 @@ var game;
 
 beforeEach(() => {
     const canvas = { width: 600, height: 400 };
-    game = new BreakoutGame(canvas);
+    const fake_sound_ctor = (frequency, duration) => { };
+    game = new BreakoutGame(canvas, fake_sound_ctor);
 });
 
 test('a game starts with a zero score', () => {
@@ -51,6 +52,7 @@ test('tick reverses movement of the ball if it hits the x edge', () => {
     expect(game.ball.y_veloc).toBe(3);
     expect(game.ball.x_veloc).toBe(-4);
     expect(game.ball.x).toBe(596);
+    expect(game.pop_scheduled_sounds()).toHaveLength(1);
 });
 
 test('tick reverses movement of the ball if it hits the y edge, player not involved.', () => {
@@ -61,6 +63,7 @@ test('tick reverses movement of the ball if it hits the y edge, player not invol
     game.tick('');
     expect(game.ball.y_veloc).toBe(4);
     expect(game.ball.y).toBe(4);
+    expect(game.pop_scheduled_sounds()).toHaveLength(1);
 });
 
 test('bounces off the player paddle (left edge)', () => {
@@ -69,6 +72,7 @@ test('bounces off the player paddle (left edge)', () => {
     game.tick('');
     expect(game.ball.y_veloc).toBe(-3);
     expect(game.ball.y).toBe(377);
+    expect(game.pop_scheduled_sounds()).toHaveLength(1);
 });
 
 test('bounces off the player paddle (right edge)', () => {
@@ -77,6 +81,7 @@ test('bounces off the player paddle (right edge)', () => {
     game.tick('');
     expect(game.ball.y_veloc).toBe(-3);
     expect(game.ball.y).toBe(377);
+    expect(game.pop_scheduled_sounds()).toHaveLength(1);
 });
 
 
@@ -86,6 +91,7 @@ test('does not bounce left of the paddle', () => {
     game.tick('');
     expect(game.ball.y_veloc).toBe(3);
     expect(game.ball.y).toBe(383);
+    expect(game.pop_scheduled_sounds()).toHaveLength(0);
 });
 
 test('does not bounce just right of the paddle', () => {
@@ -94,6 +100,7 @@ test('does not bounce just right of the paddle', () => {
     game.tick('');
     expect(game.ball.y_veloc).toBe(3);
     expect(game.ball.y).toBe(383);
+    expect(game.pop_scheduled_sounds()).toHaveLength(0);
 });
 
 test('losing a life', () => {
@@ -123,4 +130,5 @@ test('hitting the last block', () => {
     expect(game.blocks).toHaveLength(0);
     expect(game.ball.x_veloc).toBe(4);
     expect(game.ball.y_veloc).toBe(4);
+    expect(game.pop_scheduled_sounds()).toHaveLength(1);
 });

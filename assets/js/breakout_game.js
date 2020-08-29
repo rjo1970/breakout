@@ -6,7 +6,9 @@ const paddle_size = 60;
 const invincible = false;
 
 export class BreakoutGame {
-    constructor(canvas) {
+    constructor(canvas, sound_constructor) {
+        this.scheduled_sounds = [];
+        this.sound_constructor = sound_constructor;
         this.balls = 3;
         this.score = 0;
         this.blocks = [];
@@ -31,6 +33,12 @@ export class BreakoutGame {
         }
     }
 
+    pop_scheduled_sounds() {
+        const sounds = this.scheduled_sounds || [];
+        this.scheduled_sounds = [];
+        return sounds;
+    }
+
     tick(input) {
         this.collision_detect();
         if (this.need_blocks()) {
@@ -47,6 +55,7 @@ export class BreakoutGame {
     collision_detect() {
         this.check_block_collision();
         if (this.ball.touches_player(this.player)) {
+            this.schedule_sound();
             this.ball.bounce_y();
             if (!(this.ball.x > this.player.x + this.player.size() / 2)) {
                 this.ball.paddle_bounce_x(this.player);
@@ -54,9 +63,11 @@ export class BreakoutGame {
             return;
         }
         if (this.ball.x_edge_detected()) {
+            this.schedule_sound();
             this.ball.bounce_x();
         }
         if (this.ball.y_edge_detected()) {
+            this.schedule_sound();
             this.ball.bounce_y();
         }
         if (this.ball.is_lost()) {
@@ -68,6 +79,7 @@ export class BreakoutGame {
         var hit_blocks = this.blocks.filter(block => block.hit_by(this.ball));
         if (hit_blocks.length > 0) {
             var target = hit_blocks[0];
+            this.schedule_sound();
             this.score += target.score_value;
             this.blocks = this.blocks.filter(block => block !== target);
             this.ball.bounce_y();
@@ -85,5 +97,10 @@ export class BreakoutGame {
         if (!this.game_over()) {
             this.ball.reset();
         }
+    }
+
+    schedule_sound() {
+        var sound = this.sound_constructor(440, 10);
+        this.scheduled_sounds.push(sound);
     }
 };
