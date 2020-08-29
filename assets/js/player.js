@@ -37,4 +37,9 @@ export class Player {
             this.x -= VELOCITY;
         }
     }
+
+    shrink_paddle() {
+        if (this.paddle_size > 20)
+            this.paddle_size -= 20;
+    }
 }

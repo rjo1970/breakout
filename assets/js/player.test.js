@@ -56,3 +56,14 @@ test('update right', () => {
     player.update('right');
     expect(player.x).toBe(270 + player.velocity());
 });
+
+test('shrink paddle', () => {
+    player.shrink_paddle();
+    expect(player.paddle_size).toBe(40);
+});
+
+test('do not shrink paddle to zero', () => {
+    player.paddle_size = 20;
+    player.shrink_paddle();
+    expect(player.paddle_size).toBe(20);
+});

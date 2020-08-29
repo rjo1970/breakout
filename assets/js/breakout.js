@@ -79,7 +79,7 @@ class Breakout {
     draw_score() {
         this.ctx.fillStyle = 'white';
         this.ctx.font = "12pt Arial";
-        this.ctx.fillText(`score: ${this.game.score} balls: ${this.game.balls}  screen: ${this.game.screens_cleared}`, 10, 15);
+        this.ctx.fillText(`score: ${this.game.score}  balls: ${this.game.balls}  cleared screens: ${this.game.screens_cleared}`, 10, 15);
     }
 
     play_sounds() {

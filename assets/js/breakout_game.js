@@ -67,6 +67,15 @@ export class BreakoutGame {
         return this.blocks.length == 0 && this.ball.y > 100;
     }
 
+    check_screen_completion() {
+        if (this.need_blocks()) {
+            this.populate_blocks();
+            this.balls += 1;
+            this.screens_cleared += 1;
+            this.player.shrink_paddle();
+        }
+    }
+
     collision_detect() {
         this.check_block_collision();
         if (this.ball.touches_player(this.player)) {
