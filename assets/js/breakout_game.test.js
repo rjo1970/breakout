@@ -132,3 +132,15 @@ test('hitting the last block', () => {
     expect(game.ball.y_veloc).toBe(4);
     expect(game.pop_scheduled_sounds()).toHaveLength(1);
 });
+
+test('if you clear the board, you get a new board and new life', () => {
+    game.blocks = [];
+    game.ball.y = 200;
+    game.ball.x_veloc = 4;
+    game.ball.y_veloc = -4;
+
+    game.tick('');
+
+    expect(game.blocks).toHaveLength(60);
+    expect(game.balls).toBe(4);
+});

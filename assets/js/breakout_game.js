@@ -43,6 +43,7 @@ export class BreakoutGame {
         this.collision_detect();
         if (this.need_blocks()) {
             this.populate_blocks();
+            this.balls += 1;
         }
         this.ball.update();
         this.player.update(input);
