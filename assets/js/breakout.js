@@ -90,7 +90,6 @@ class Breakout {
         this.sounds.filter(sound => sound.playing);
 
         const new_sounds = this.game.pop_scheduled_sounds();
-        console.log(new_sounds);
         new_sounds.forEach((sound) => {
             this.sounds.push(sound);
             sound.play();

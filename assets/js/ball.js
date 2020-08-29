@@ -28,7 +28,8 @@ export class Ball {
         const half_paddle = player.size() / 2;
         const step_size = player.size() / 8;
         const ideal_x = player.x + half_paddle;
-        const veloc = 6 - Math.floor(Math.abs(this.x - ideal_x) / step_size)
+        const accuracy_score = Math.floor(Math.abs(this.x - ideal_x) / step_size);
+        const veloc = 6 + accuracy_score;
         if (this.x_veloc > 0) {
             this.x_veloc = veloc;
         } else {
@@ -51,21 +52,38 @@ export class Ball {
         return this.x >= player.x &&
             this.x <= player.x + player.paddle_size &&
             this.y >= player.y &&
-            this.y <= player.y + this.size;
+            this.y <= player.y + this.size &&
+            this.y_veloc > 0;
     }
 
     y_edge_detected() {
-        return (this.invincible && this.y >= this.canvas_height + this.size) || this.y <= 0;
+        return (this.invincible && this.y >= this.canvas_height - this.size) || (this.y <= 0 && this.y_veloc < 0);
     }
 
     x_edge_detected() {
-        return this.x >= this.canvas_width - this.size || this.x <= 0;
+        if (this.x < 0 && this.x_veloc <= 0) {
+            return true;
+        }
+        if (this.x > this.canvas_width - this.width && this.x_veloc >= 0) {
+            return true;
+        }
+
+        const bounce_left = (this.x >= this.canvas_width - this.size);
+        const bounce_right = (this.x <= 0);
+        return bounce_left || bounce_right;
     }
 
     is_lost() {
         // side effect is this "waits" until the ball falls a while
         // before creating a new ball.
         return this.y > this.canvas_height * 2;
+    }
+
+    in_screen() {
+        return this.x <= this.canvas_width &&
+            this.x >= this.size * -1 &&
+            this.y <= this.canvas_height &&
+            this.y >= 0;
     }
 
 }

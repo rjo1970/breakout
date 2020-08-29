@@ -100,7 +100,9 @@ export class BreakoutGame {
     }
 
     schedule_sound() {
-        var sound = this.sound_constructor(440, 10);
-        this.scheduled_sounds.push(sound);
+        if (this.ball.in_screen()) {
+            var sound = this.sound_constructor(440, 10);
+            this.scheduled_sounds.push(sound);
+        }
     }
 };

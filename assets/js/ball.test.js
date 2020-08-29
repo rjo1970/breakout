@@ -64,5 +64,23 @@ test('paddle bounce', () => {
     ball.x_veloc = 4;
     ball.paddle_bounce_x(player);
 
-    expect(ball.x_veloc).toBe(2);
+    expect(ball.x_veloc).toBe(10);
+});
+
+test('in_screen when it actually is', () => {
+    ball.x = 100;
+    ball.y = 100;
+    expect(ball.in_screen()).toBeTruthy();
+});
+
+test('in_screen when it is not in screen on x', () => {
+    ball.x = 620;
+    ball.y = 100;
+    expect(ball.in_screen()).toBeFalsy();
+});
+
+test('in_screen when in in screen on y', () => {
+    ball.x = 100;
+    ball.y = 420;
+    expect(ball.in_screen()).toBeFalsy();
 });
