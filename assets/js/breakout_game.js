@@ -3,7 +3,7 @@ import { Player } from "./player";
 import { Block } from "./block";
 import { MusicNotes } from "./music_notes";
 
-const paddle_size = 60;
+const paddle_size = 80;
 const invincible = false;
 
 export class BreakoutGame {
@@ -110,6 +110,9 @@ export class BreakoutGame {
             this.score += target.score_value;
             this.blocks = this.blocks.filter(block => block !== target);
             this.ball.bounce_y();
+            if (target.hit_x_edge(this.ball)) {
+                this.ball.bounce_x();
+            }
         }
     }
 

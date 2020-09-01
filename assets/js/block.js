@@ -16,4 +16,9 @@ export class Block {
             ball.y >= this.y &&
             ball.y <= this.y + height;
     }
+
+    hit_x_edge(ball) {
+        return Math.abs(ball.x - this.x) < 2 ||
+            Math.abs(ball.x - (this.x + width)) < 2;
+    }
 }

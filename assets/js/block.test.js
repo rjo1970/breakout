@@ -51,3 +51,10 @@ test('hit the block with the ball but not exact y', () => {
     expect(block.hit_by(ball)).toBeTruthy();
 });
 
+test('detects bounce off the side of a block', () => {
+    ball.x = 41;
+    ball.y = 60;
+
+    expect(block.hit_x_edge(ball)).toBe(true);
+});
+
