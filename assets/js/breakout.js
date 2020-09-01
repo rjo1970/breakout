@@ -2,29 +2,45 @@ import { BreakoutGame } from "./breakout_game"
 import { KeyboardReader } from "./keyboard_reader"
 import { Sound } from "./sound";
 
-class Breakout {
+export class Breakout {
     constructor(canvas_id) {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        this.audio_context = new AudioContext();
-        this.sound_ctor = (frequency, duration) => new Sound(this.audio_context, frequency, duration);
-        this.sounds = [];
-        this.canvas = document.getElementById(canvas_id);
-        this.ctx = this.canvas.getContext("2d");
+        this.setup_canvas(canvas_id);
+        this.create_audio_context();
+        this.setup_sound();
         this.game = new BreakoutGame(this.canvas, this.sound_ctor);
         this.keyboard_reader = new KeyboardReader();
         this.game_loop_callback = () => this.game_loop();
     }
 
+    create_audio_context() {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        this.audio_context = new AudioContext();
+    }
+
+    setup_sound() {
+        this.sound_ctor = (frequency, duration) => new Sound(this.audio_context, frequency, duration);
+        this.sounds = [];
+    }
+
+    setup_canvas(canvas_id) {
+        this.canvas = document.getElementById(canvas_id);
+        this.ctx = this.canvas.getContext("2d")
+    }
+
     game_loop() {
+        this.draw_screen();
+        this.keyboard_tick();
+        this.play_sounds();
+        requestAnimationFrame(this.game_loop_callback);
+    }
+
+    draw_screen() {
         this.screen_refresh();
         this.draw_blocks();
         this.draw_ball();
         this.draw_player();
         this.draw_score();
         this.draw_game_over();
-        this.keyboard_tick();
-        this.play_sounds();
-        requestAnimationFrame(this.game_loop_callback);
     }
 
     keyboard_tick() {
@@ -56,7 +72,7 @@ class Breakout {
     }
 
     draw_blocks() {
-        this.game.blocks.forEach((block, index, array) => {
+        this.game.blocks.forEach((block) => {
             this.ctx.fillStyle = block.color;
             this.ctx.fillRect(block.x, block.y, 39, 19);
         });
@@ -96,5 +112,3 @@ class Breakout {
         });
     }
 };
-
-export { Breakout }

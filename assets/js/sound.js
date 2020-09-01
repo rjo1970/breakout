@@ -1,8 +1,8 @@
 export class Sound {
     constructor(audio_context, frequency, duration) {
+        this.ctx = audio_context;
         this.frequency = frequency;
         this.duration = duration;
-        this.ctx = audio_context;
         this.oscillator = this.ctx.createOscillator();
         this.playing = false;
     }

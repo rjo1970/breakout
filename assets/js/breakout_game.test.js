@@ -144,6 +144,7 @@ test('if you clear the board, you get a new board, new life, and bump the cleare
     expect(game.blocks).toHaveLength(60);
     expect(game.balls).toBe(4);
     expect(game.screens_cleared).toBe(1);
+    expect(game.player.size()).toBe(40);
 });
 
 test('the evil on-one-side-bounce-thing', () => {
