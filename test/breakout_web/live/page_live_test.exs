@@ -5,7 +5,7 @@ defmodule BreakoutWeb.PageLiveTest do
 
   test "disconnected and connected render", %{conn: conn} do
     {:ok, page_live, disconnected_html} = live(conn, "/")
-    assert disconnected_html =~ "Breakout"
-    assert render(page_live) =~ "Breakout"
+    assert disconnected_html =~ "canvas id=\"game_canvas\""
+    assert render(page_live) =~ "canvas id=\"game_canvas\""
   end
 end
