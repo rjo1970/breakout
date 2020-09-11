@@ -8,6 +8,7 @@ export class Breakout {
         this.create_audio_context();
         this.setup_sound();
         this.game = new BreakoutGame(this.canvas, this.sound_ctor);
+        this.game.balls = 0;
         this.keyboard_reader = new KeyboardReader();
         this.game_loop_callback = () => this.game_loop();
     }

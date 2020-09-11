@@ -14,7 +14,7 @@ export class BreakoutGame {
         this.balls = 3;
         this.score = 0;
         this.blocks = [];
-        this.notes = new MusicNotes();
+        this.notes = MusicNotes;
         this.populate_blocks();
         this.ball = new Ball(canvas.width, canvas.height, invincible);
         this.player = new Player(canvas.width, canvas.height, paddle_size);
