@@ -62,8 +62,8 @@ export class Breakout {
     draw_game_over() {
         if (this.game.game_over()) {
             this.ctx.fillStyle = 'yellow';
-            this.ctx.font = "70pt Arial";
-            this.ctx.fillText("Game Over", 60, 200);
+            this.ctx.font = "64pt Orbitron";
+            this.ctx.fillText("Game Over", 35, 200);
         }
     }
 
@@ -95,7 +95,7 @@ export class Breakout {
 
     draw_score() {
         this.ctx.fillStyle = 'white';
-        this.ctx.font = "12pt Arial";
+        this.ctx.font = "12pt Orbitron";
         this.ctx.fillText(`score: ${this.game.score}  balls: ${this.game.balls}  cleared screens: ${this.game.screens_cleared}`, 10, 15);
     }
 
